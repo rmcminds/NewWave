@@ -358,7 +358,7 @@ funs <- local(
       gamma_init = function(k) {
         
         Xbeta <- X_sh %*% beta_sh
-        step <- ceiling(nrow(Y_sh) / children)
+        step <- ceiling(nrow(Y_sh) / (if(is.numeric(children)) children else length(children)) )
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, nrow(Y_sh))
         intervall <- seq.int(from = j1, to = j2)
@@ -374,7 +374,7 @@ funs <- local(
       
       delayed_gamma_init = function(k) {
         
-        step <- ceiling(nrow(L_sh) / children)
+        step <- ceiling(nrow(L_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, nrow(L_sh))
         intervall <- seq.int(from = j1, to = j2)
@@ -396,7 +396,7 @@ funs <- local(
       beta_init = function(k) {
         
         Vgamma <- t(V_sh %*% gamma_sh)
-        step <- ceiling(ncol(Y_sh) / children)
+        step <- ceiling(ncol(Y_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, ncol(Y_sh))
         intervall <- seq.int(from = j1, to = j2)
@@ -413,7 +413,7 @@ funs <- local(
       
       delayed_beta_init = function(k) {
         
-        step <- ceiling(ncol(L_sh) / children)
+        step <- ceiling(ncol(L_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, ncol(L_sh))
         intervall <- seq.int(from = j1, to = j2)
@@ -433,7 +433,7 @@ funs <- local(
       
       delayed_ll = function(k){
         
-        step <- ceiling(ncol(Y_sh) / children)
+        step <- ceiling(ncol(Y_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, ncol(Y_sh))
         intervall <- seq.int(from = j1, to = j2)
@@ -455,7 +455,7 @@ funs <- local(
       
       optim_genwise_dispersion = function(k, num_gene, iter) {
         
-        step <- ceiling(ncol(Y_sh) / children)
+        step <- ceiling(ncol(Y_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, ncol(Y_sh))
         
@@ -466,7 +466,7 @@ funs <- local(
         } else {
           
           intervall <- sample(x = seq.int(from = j1, to = j2),
-                              size = num_gene/children)
+                              size = num_gene/(if(is.numeric(children)) children else length(children)))
           
         }
         
@@ -476,7 +476,7 @@ funs <- local(
       
       optim_genwise_dispersion_delayed = function(k,Y, num_gene, iter) {
         
-        step <- ceiling(ncol(Y) / children)
+        step <- ceiling(ncol(Y) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, ncol(Y))
         
@@ -487,7 +487,7 @@ funs <- local(
         } else {
           
           intervall <- sample(x = seq.int(from = j1, to = j2),
-                              size = num_gene/children)
+                              size = num_gene/(if(is.numeric(children)) children else length(children)))
           
         }
         
@@ -507,7 +507,7 @@ funs <- local(
       
       optimr = function(k, num_gene, iter) {
         
-        step <- ceiling(ncol(Y_sh) / children)
+        step <- ceiling(ncol(Y_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, ncol(Y_sh))
         
@@ -518,7 +518,7 @@ funs <- local(
         } else {
           
           intervall <- sample(x = seq.int(from = j1, to = j2),
-                              size = num_gene/children)
+                              size = num_gene/(if(is.numeric(children)) children else length(children)))
         }
         
         lapply(intervall, f_temp_r )
@@ -527,7 +527,7 @@ funs <- local(
       
       optimr_delayed = function(k, num_gene, iter) {
         
-        step <- ceiling(ncol(Y_sh) / children)
+        step <- ceiling(ncol(Y_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, ncol(Y_sh))
         
@@ -538,7 +538,7 @@ funs <- local(
         } else {
           
           intervall <- sample(x = seq.int(from = j1, to = j2),
-                              size = num_gene/children)
+                              size = num_gene/(if(is.numeric(children)) children else length(children)))
         }
         
         DelayedArray::blockApply(
@@ -559,7 +559,7 @@ funs <- local(
       
       optiml = function(k, num_cell, iter){
         
-        step <- ceiling( nrow(Y_sh) / children)
+        step <- ceiling( nrow(Y_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, nrow(Y_sh))
         
@@ -570,7 +570,7 @@ funs <- local(
         } else {
           
           intervall <- sample(x = seq.int(from = j1, to = j2),
-                              size = num_cell/children)
+                              size = num_cell/(if(is.numeric(children)) children else length(children)))
           
         }
         
@@ -580,7 +580,7 @@ funs <- local(
       
       optiml_delayed = function(k, num_cell, iter){
         
-        step <- ceiling( nrow(Y_sh) / children)
+        step <- ceiling( nrow(Y_sh) / (if(is.numeric(children)) children else length(children)))
         j1 <- (k-1) * step + 1
         j2 <- min(k * step, nrow(Y_sh))
         
@@ -591,7 +591,7 @@ funs <- local(
         } else {
           
           intervall <- sample(x = seq.int(from = j1, to = j2),
-                              size = num_cell/children)
+                              size = num_cell/(if(is.numeric(children)) children else length(children)))
           
         }
         
