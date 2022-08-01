@@ -380,7 +380,7 @@ funs <- local(
         intervall <- seq.int(from = j1, to = j2)
         
         DelayedArray::blockApply(
-          x = L_sh[intervall,],
+          x = L_sh[intervall,,drop=FALSE],
           FUN = over_gamma,
           grid = DelayedArray::RegularArrayGrid(
             refdim = dim(L_sh[intervall,,drop=FALSE]),
@@ -596,7 +596,7 @@ funs <- local(
         }
         
         DelayedArray::blockApply(
-          x = Y_sh[intervall,],
+          x = Y_sh[intervall,,drop=FALSE],
           FUN = over_optl,
           grid = DelayedArray::RegularArrayGrid(
             refdim = dim(Y_sh[intervall,,drop=FALSE]),
