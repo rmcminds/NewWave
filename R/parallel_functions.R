@@ -384,7 +384,7 @@ funs <- local(
           FUN = over_gamma,
           grid = DelayedArray::RegularArrayGrid(
             refdim = dim(L_sh[intervall,,drop=FALSE]),
-            spacings = c( 1L, ncol(L_sh[intervall,]))),
+            spacings = c( 1L, ncol(L_sh[intervall,,drop=FALSE]))),
           BPPARAM = NULL,
           V_sh = V_sh, X_sh =X_sh[intervall,,drop=FALSE], beta_sh = beta_sh,
           gamma_sh = gamma_sh, epsilon_gamma = epsilon_gamma,
@@ -600,7 +600,7 @@ funs <- local(
           FUN = over_optl,
           grid = DelayedArray::RegularArrayGrid(
             refdim = dim(Y_sh[intervall,,drop=FALSE]),
-            spacings = c( 1L, ncol(Y_sh[intervall,]))),
+            spacings = c( 1L, ncol(Y_sh[intervall,,drop=FALSE]))),
           BPPARAM = NULL,
           gamma_tmp = gamma_sh[,intervall, drop = FALSE],
           W_tmp = W_sh[intervall,, drop = FALSE], V_tmp = V_sh,
