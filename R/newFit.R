@@ -431,8 +431,10 @@ delayed_initialization <- function(cluster, children, model, verbose, Y){
   L_sh <- log1p(Y)
   
   clusterExport(cluster,"L_sh",envir = environment())
-  
-  clusterApply(cluster, seq.int(children), funs$delayed_gamma_init)
+          
+  cores_gamma <- min(max(seq.int(children)), nrow(L_sh)) ## if there are fewer samples than cores, don't use all the cores. (this has not been fixed if there are fewer genes than cores...)
+            
+  clusterApply(cluster, seq.int(cores_gamma), funs$delayed_gamma_init)
   
   clusterApply(cluster, seq.int(children), funs$delayed_beta_init)
 
@@ -744,7 +746,9 @@ delayed_optimization <- function(Y, cluster, children, model ,
     
     ptm <- proc.time()
     
-    clusterApply(cluster, seq.int(children), funs$optiml_delayed , 
+    cores_gamma <- min(max(seq.int(children)), nrow(L_sh)) ## if there are fewer samples than cores, don't use all the cores. (this has not been fixed if there are fewer genes than cores...)
+            
+    clusterApply(cluster, seq.int(cores_gamma), funs$optiml_delayed , 
                       num_cell = n_cell_par, iter = iter)
     
     
